@@ -6,11 +6,24 @@
 /*   By: emehdaou <emehdaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 15:58:33 by emehdaou          #+#    #+#             */
-/*   Updated: 2023/11/17 17:12:20 by emehdaou         ###   ########.fr       */
+/*   Updated: 2023/11/20 21:44:19 by emehdaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+void	ft_bzero(void *s, size_t n)
+{
+	char	*s2;
+
+	s2 = (char *)s;
+	while (n > 0)
+	{
+		*s2 = '\0';
+		s2++;
+		n--;
+	}
+}
 
 void	*ft_calloc(size_t nmemb, size_t size)
 {
@@ -27,12 +40,15 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	return (s);
 }
 
-void	ft_lstadd_back(t_list **lst, t_list *new)
+void	ft_lstadd_back(t_list **lst, char* content)
 {
 	t_list	*current;
+	t_list	*new;
 
+	new = malloc(sizeof(t_list *));
+	new->content = content;
 	if (!*lst)
-		*lst = new;
+		return ;
 	else
 	{
 		current = *lst;
