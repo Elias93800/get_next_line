@@ -16,7 +16,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
-#define BUFFER_SIZE 10
+#include <fcntl.h>
+#define SIZE_BUFFER 100
 
 typedef struct s_list
 {
@@ -25,8 +26,8 @@ typedef struct s_list
 } t_list;
 
 char *get_next_line(int fd);
-void	ft_lstadd_back(t_list **lst, t_list *new);
-t_list	*ft_lstnew(void *content);
+void	ft_lstadd_back(t_list **lst, char *content);
+t_list	*ft_lstnew(char *content);
 void	*ft_calloc(size_t nmemb, size_t size);
 void	ft_bzero(void *s, size_t n);
 

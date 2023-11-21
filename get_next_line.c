@@ -12,14 +12,29 @@
 
 #include "get_next_line.h"
 
+int	is_nl(char *str)
+{
+	int i;
+
+	i = 0;
+	if (!str)
+		return 0;
+	while(str[i])
+	{
+		if (str[i] == '\n')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 t_list	*ft_lstclean(t_list *lst, int size)
 {
 	t_list	*tmp;
 	int		i;
 
 	i = 0;
-    tmp = malloc(sizeof(t_list*));
-	while (i <= size)
+	while (lst != NULL && i <= size)
 	{
 		if (lst->content[i] == '\n')
 			lst->content = &lst->content[i];
@@ -27,6 +42,7 @@ t_list	*ft_lstclean(t_list *lst, int size)
 		{
 			tmp = lst->next;
 			free(lst);
+			lst = tmp;
 		}
 	}
 	return (lst);
@@ -37,45 +53,64 @@ void	ft_init(t_list *lst, int fd)
 	char	*buffer;
 	int		bytes_read;
 
-	while (!is_nl(lst->content) && lst != NULL && bytes_read != 0)
+	while ( lst != NULL && is_nl(lst->content) == 0)
 	{
-		buffer = malloc(BUFFER_SIZE + 1);
+		buffer = ft_calloc(sizeof(char *), SIZE_BUFFER + 1);
 		if (!buffer)
-			return (NULL);
-		bytes_read = read(fd, buffer, BUFFER_SIZE);
-		buffer[++bytes_read] = '\0';
+			return ;
+		bytes_read = read(fd, buffer, SIZE_BUFFER);
+		if (bytes_read == 0)
+			break;
+		printf("buffer = %s ", buffer);
+		printf("byte read = %d\n", bytes_read);
 		ft_lstadd_back(&lst, buffer);
 		free(buffer);
 		lst = lst->next;
 	}
 }
 
-int	create_line(t_list *lst, char *res)
+int	create_line(t_list *lst, char **res)
 {
 	t_list	*current;
 	int		i;
 
 	current = lst;
 	i = 0;
-	while (current->content[i] != '\n')
+	while (current != NULL && current->content[i] != '\n')
 	{
 		i++;
 		if (current->content[i] == '\0')
 			current = current->next;
 	}
-	res = ft_calloc(sizeof(char *), i + 1);
+	printf("i = %d\n", i);
+	*res = ft_calloc(sizeof(char *), i + 1);
     if (!res)
-        return (0);
-	i = 0;
-	while (current->content[i] != '\n')
 	{
-		res[i] = current->content[i];
+    	return (0);
+	}
+	i = 0;
+	current = lst;
+	while (current != NULL && current->content[i] != '\n')
+	{
+		*res[i] = current->content[i];
 		i++;
 		if (current->content[i] == '\0')
 			current = current->next;
 	}
-	res[++i] = '\n';
+	*res[i] = '\n';
 	return (i);
+}
+
+void print_list(t_list *first_node)
+{
+     t_list  *current;
+
+     current = first_node;
+     while (current != NULL)
+     {
+             printf("%s\n", current->content);
+             current = current->next;
+     }
 }
 
 char	*get_next_line(int fd)
@@ -84,16 +119,20 @@ char	*get_next_line(int fd)
 	char			*res;
 	int				size;
 
-    ft_lstnew(lst);
+    lst = ft_lstnew(NULL);
 	ft_init(lst, fd);
-	size = create_line(lst, res);
+	print_list(lst);
+	size = create_line(lst, &res);
 	if (size == 0)
-		return (NULL);
+		return (0);
 	lst = ft_lstclean(lst, size);
+	printf("res = %s\n", res);
 	return (res);
 }
 
-// int main()
-// {
-//     printf(get_next_line)    
-// }
+int main()
+{
+	int fd = open("gnlTester/files/41_with_nl", O_RDWR);
+	get_next_line(fd);
+    // printf("%s\n", get_next_line(fd));    
+}

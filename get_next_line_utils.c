@@ -58,7 +58,7 @@ void	ft_lstadd_back(t_list **lst, char* content)
 	}
 }
 
-t_list	*ft_lstnew(void *content)
+t_list	*ft_lstnew(char *content)
 {
 	t_list	*new;
 
