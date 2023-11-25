@@ -6,7 +6,7 @@
 /*   By: emehdaou <emehdaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 15:58:33 by emehdaou          #+#    #+#             */
-/*   Updated: 2023/11/20 21:44:19 by emehdaou         ###   ########.fr       */
+/*   Updated: 2023/11/24 19:32:40 by emehdaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,22 +40,22 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	return (s);
 }
 
-void	ft_lstadd_back(t_list **lst, char* content)
+void	ft_lstadd_back(t_list *head, char* content)
 {
 	t_list	*current;
 	t_list	*new;
 
-	new = malloc(sizeof(t_list *));
-	new->content = content;
-	if (!*lst)
+	// new = malloc(sizeof(t_list));
+	// new->content = content;
+	// if (!new)
+	// 	return ;
+	new = ft_lstnew(content);
+	if (!new)
 		return ;
-	else
-	{
-		current = *lst;
-		while (current->next)
-			current = current->next;
-		current->next = new;
-	}
+	current = head;
+	while (current->next)
+		current = current->next;
+	current->next = new;
 }
 
 t_list	*ft_lstnew(char *content)
