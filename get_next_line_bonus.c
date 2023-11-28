@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: emehdaou <emehdaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 15:58:44 by emehdaou          #+#    #+#             */
-/*   Updated: 2023/11/28 22:07:24 by emehdaou         ###   ########.fr       */
+/*   Updated: 2023/11/28 22:07:44 by emehdaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,28 +107,28 @@ char	*create_line(t_list *head, char *res)
 
 char	*get_next_line(int fd)
 {
-	static t_list	*h;
+	static t_list	*h[1024];
 	char			*res;
 	int				byte_read;
 	t_list			*t;
 
-	if (fd == -1)
+	if (fd == -1 || fd > 1023)
 		return (NULL);
-	if (!h)
+	if (!h[fd])
 	{
-		h = ft_lstnew(malloc(1));
-		if (!h)
+		h[fd] = ft_lstnew(malloc(1));
+		if (!h[fd])
 			return (NULL);
-		h->content[0] = '\0';
+		h[fd]->content[0] = '\0';
 	}
-	byte_read = ft_init(h, fd);
+	byte_read = ft_init(h[fd], fd);
 	if (byte_read == -1)
-		return (t = ft_lstclean(h), h = NULL, free(t->content), free(t), NULL);
-	res = malloc(sizeof(char) * get_size(h) + 1);
+		return (t = ft_lstclean(h[fd]), h[fd] = NULL, free(t->content), free(t), NULL);
+	res = malloc(sizeof(char) * get_size(h[fd]) + 1);
 	if (!res)
 		return (NULL);
-	res = create_line(h, res);
-	h = ft_lstclean(h);
+	res = create_line(h[fd], res);
+	h[fd] = ft_lstclean(h[fd]);
 	if (!*res)
 		return (free(res), NULL);
 	return (res);
