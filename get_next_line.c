@@ -6,7 +6,7 @@
 /*   By: emehdaou <emehdaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 15:58:44 by emehdaou          #+#    #+#             */
-/*   Updated: 2023/11/28 21:52:17 by emehdaou         ###   ########.fr       */
+/*   Updated: 2023/11/28 22:00:13 by emehdaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,28 +107,28 @@ char	*create_line(t_list *head, char *res)
 
 char	*get_next_line(int fd)
 {
-	static t_list	*head;
+	static t_list	*h;
 	char			*res;
 	int				byte_read;
-	t_list *tmp;
+	t_list			*t;
 
 	if (fd == -1)
 		return (NULL);
-	if (!head)
+	if (!h)
 	{
-		head = ft_lstnew(malloc(1));
-		if (!head)
+		h = ft_lstnew(malloc(1));
+		if (!h)
 			return (NULL);
-		head->content[0] = '\0';
+		h->content[0] = '\0';
 	}
-	byte_read = ft_init(head, fd);
+	byte_read = ft_init(h, fd);
 	if (byte_read == -1)
-		return (tmp = ft_lstclean(head), head = NULL, free(tmp->content), free(tmp), NULL);
-	res = calloc(sizeof(char), get_size(head) + 1);
+		return (t = ft_lstclean(h), h = NULL, free(t->content), free(t), NULL);
+	res = malloc(sizeof(char) * get_size(h) + 1);
 	if (!res)
 		return (NULL);
-	res = create_line(head, res);
-	head = ft_lstclean(head);
+	res = create_line(h, res);
+	h = ft_lstclean(h);
 	if (!*res)
 		return (free(res), NULL);
 	return (res);
@@ -136,10 +136,11 @@ char	*get_next_line(int fd)
 
 // int	main(void)
 // {
-// 	// int fd = open("moha.txt", O_RDWR);
+// 	int fd = open("moha.txt", O_RDWR);
 // 	// close(fd);
 // 	// fd = open("moha.txt", O_RDWR);		return (-1);
 
+// 	while (1)
 // 	{
 // 		char *str = get_next_line(fd);
 // 		str = get_next_line(fd);

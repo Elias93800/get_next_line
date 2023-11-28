@@ -6,7 +6,7 @@
 /*   By: emehdaou <emehdaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 15:58:33 by emehdaou          #+#    #+#             */
-/*   Updated: 2023/11/28 20:58:53 by emehdaou         ###   ########.fr       */
+/*   Updated: 2023/11/28 21:59:41 by emehdaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,7 @@ t_list	*ft_lstlast(t_list *lst)
 	while (lst->next)
 	{
 		if (lst && lst->content)
-		{
 			free(lst->content);
-		}
 		last = lst->next;
 		free(lst);
 		lst = last;
