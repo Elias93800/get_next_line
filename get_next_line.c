@@ -6,7 +6,7 @@
 /*   By: emehdaou <emehdaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 15:58:44 by emehdaou          #+#    #+#             */
-/*   Updated: 2023/11/28 18:42:40 by emehdaou         ###   ########.fr       */
+/*   Updated: 2023/11/28 21:52:17 by emehdaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ int	ft_init(t_list *head, int fd)
 	int		bytes_read;
 
 	lst = head;
-	bytes_read = 1;
 	while (is_nl(lst->content) == 0)
 	{
 		buffer = malloc(sizeof(char) * BUFFER_SIZE + 1);
@@ -71,15 +70,12 @@ int	ft_init(t_list *head, int fd)
 			return (0);
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read <= 0)
-		{
-			free(buffer);
-			break ;
-		}
+			return (free(buffer), bytes_read);
 		buffer[bytes_read] = '\0';
 		ft_lstadd_back(head, buffer);
 		lst = lst->next;
 	}
-	return (bytes_read);
+	return (1);
 }
 
 char	*create_line(t_list *head, char *res)
@@ -114,6 +110,7 @@ char	*get_next_line(int fd)
 	static t_list	*head;
 	char			*res;
 	int				byte_read;
+	t_list *tmp;
 
 	if (fd == -1)
 		return (NULL);
@@ -126,24 +123,26 @@ char	*get_next_line(int fd)
 	}
 	byte_read = ft_init(head, fd);
 	if (byte_read == -1)
-		return (ft_lstclean(head), NULL);
-	res = malloc(sizeof(char) * get_size(head) + 1);
+		return (tmp = ft_lstclean(head), head = NULL, free(tmp->content), free(tmp), NULL);
+	res = calloc(sizeof(char), get_size(head) + 1);
 	if (!res)
 		return (NULL);
 	res = create_line(head, res);
 	head = ft_lstclean(head);
 	if (!*res)
-		return (free(head->content), free(head), free(res), NULL);
+		return (free(res), NULL);
 	return (res);
 }
 
 // int	main(void)
 // {
-// 	int fd = open("./get_next_line.h", O_RDWR);
+// 	// int fd = open("moha.txt", O_RDWR);
+// 	// close(fd);
+// 	// fd = open("moha.txt", O_RDWR);		return (-1);
 
-// 	while (1)
 // 	{
 // 		char *str = get_next_line(fd);
+// 		str = get_next_line(fd);
 // 		if (!str)
 // 			break ;
 // 		// printf("--------\n");

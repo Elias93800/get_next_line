@@ -6,7 +6,7 @@
 /*   By: emehdaou <emehdaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 15:58:33 by emehdaou          #+#    #+#             */
-/*   Updated: 2023/11/28 18:39:47 by emehdaou         ###   ########.fr       */
+/*   Updated: 2023/11/28 20:58:53 by emehdaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ t_list	*ft_lstnew(char *content)
 {
 	t_list	*new;
 
+	if (!content)
+		return (NULL);
 	new = malloc(sizeof(t_list));
 	if (!new)
 		return (NULL);

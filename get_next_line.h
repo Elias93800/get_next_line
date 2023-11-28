@@ -6,7 +6,7 @@
 /*   By: emehdaou <emehdaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 15:58:38 by emehdaou          #+#    #+#             */
-/*   Updated: 2023/11/28 18:39:11 by emehdaou         ###   ########.fr       */
+/*   Updated: 2023/11/28 20:31:24 by emehdaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@
 # include <string.h>
 # include <unistd.h>
 
-# define BUFFER_SIZE 1
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE	1
+# endif
 
 typedef struct s_list
 {
