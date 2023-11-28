@@ -6,31 +6,34 @@
 /*   By: emehdaou <emehdaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 15:58:38 by emehdaou          #+#    #+#             */
-/*   Updated: 2023/11/25 01:05:22 by emehdaou         ###   ########.fr       */
+/*   Updated: 2023/11/28 18:39:11 by emehdaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
-#include <limits.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <string.h>
+# include <fcntl.h>
+# include <limits.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <unistd.h>
 
-#define SIZE_BUFFER 10
+# define BUFFER_SIZE 1
 
 typedef struct s_list
 {
 	char			*content;
 	struct s_list	*next;
-} t_list;
+}					t_list;
 
-char *get_next_line(int fd);
-void	ft_lstadd_back(t_list *head, char *content);
-t_list	*ft_lstnew(char *content);
-void	*ft_calloc(size_t nmemb, size_t size);
-void	ft_bzero(void *s, size_t n);
+char				*get_next_line(int fd);
+void				ft_lstadd_back(t_list *head, char *content);
+t_list				*ft_lstnew(char *content);
+void				*ft_calloc(size_t nmemb, size_t size);
+void				ft_bzero(void *s, size_t n);
+t_list				*ft_lstlast(t_list *lst);
+int					get_size(t_list *head);
+size_t				ft_strlen(const char *str);
 
 #endif
