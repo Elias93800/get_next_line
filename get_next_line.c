@@ -6,7 +6,7 @@
 /*   By: emehdaou <emehdaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 15:58:44 by emehdaou          #+#    #+#             */
-/*   Updated: 2023/11/28 22:07:24 by emehdaou         ###   ########.fr       */
+/*   Updated: 2023/11/30 15:28:01 by emehdaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	is_nl(char *str)
 	return (0);
 }
 
-t_list	*ft_lstclean(t_list *list)
+t_list	*clean(t_list *list)
 {
 	int		i;
 	int		j;
@@ -123,12 +123,12 @@ char	*get_next_line(int fd)
 	}
 	byte_read = ft_init(h, fd);
 	if (byte_read == -1)
-		return (t = ft_lstclean(h), h = NULL, free(t->content), free(t), NULL);
+		return (t = clean(h), h = NULL, free(t->content), free(t), NULL);
 	res = malloc(sizeof(char) * get_size(h) + 1);
 	if (!res)
 		return (NULL);
 	res = create_line(h, res);
-	h = ft_lstclean(h);
+	h = clean(h);
 	if (!*res)
 		return (free(res), NULL);
 	return (res);
@@ -136,14 +136,13 @@ char	*get_next_line(int fd)
 
 // int	main(void)
 // {
-// 	int fd = open("moha.txt", O_RDWR);
+// 	int fd = open("get_next_line.h", O_RDWR);
 // 	// close(fd);
 // 	// fd = open("moha.txt", O_RDWR);		return (-1);
 
 // 	while (1)
 // 	{
 // 		char *str = get_next_line(fd);
-// 		str = get_next_line(fd);
 // 		if (!str)
 // 			break ;
 // 		// printf("--------\n");

@@ -6,11 +6,11 @@
 /*   By: emehdaou <emehdaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 15:58:44 by emehdaou          #+#    #+#             */
-/*   Updated: 2023/11/28 22:07:44 by emehdaou         ###   ########.fr       */
+/*   Updated: 2023/12/06 12:18:16 by emehdaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 int	is_nl(char *str)
 {
@@ -28,7 +28,7 @@ int	is_nl(char *str)
 	return (0);
 }
 
-t_list	*ft_lstclean(t_list *list)
+t_list	*clean(t_list *list)
 {
 	int		i;
 	int		j;
@@ -41,19 +41,19 @@ t_list	*ft_lstclean(t_list *list)
 	clean->next = NULL;
 	last = ft_lstlast(list);
 	i = 0;
-	while (last->content[i] && last->content[i] != '\n')
+	while (last->str[i] && last->str[i] != '\n')
 		i++;
-	if (last->content && last->content[i] == '\n')
+	if (last->str && last->str[i] == '\n')
 		i++;
-	clean->content = malloc(sizeof(char) * ((ft_strlen(last->content) - i)
+	clean->str = malloc(sizeof(char) * ((ft_strlen(last->str) - i)
 				+ 1));
-	if (clean->content == NULL)
+	if (clean->str == NULL)
 		return (free(clean), NULL);
 	j = 0;
-	while (last->content[i])
-		clean->content[j++] = last->content[i++];
-	clean->content[j] = '\0';
-	return (free(last->content), free(last), clean);
+	while (last->str[i])
+		clean->str[j++] = last->str[i++];
+	clean->str[j] = '\0';
+	return (free(last->str), free(last), clean);
 }
 
 int	ft_init(t_list *head, int fd)
@@ -63,7 +63,7 @@ int	ft_init(t_list *head, int fd)
 	int		bytes_read;
 
 	lst = head;
-	while (is_nl(lst->content) == 0)
+	while (is_nl(lst->str) == 0)
 	{
 		buffer = malloc(sizeof(char) * BUFFER_SIZE + 1);
 		if (!buffer)
@@ -90,14 +90,14 @@ char	*create_line(t_list *head, char *res)
 	while (current)
 	{
 		i = 0;
-		while (current->content[i])
+		while (current->str[i])
 		{
-			if (current->content[i] == '\n')
+			if (current->str[i] == '\n')
 			{
-				res[j++] = current->content[i];
+				res[j++] = current->str[i];
 				break ;
 			}
-			res[j++] = current->content[i++];
+			res[j++] = current->str[i++];
 		}
 		current = current->next;
 	}
@@ -119,16 +119,16 @@ char	*get_next_line(int fd)
 		h[fd] = ft_lstnew(malloc(1));
 		if (!h[fd])
 			return (NULL);
-		h[fd]->content[0] = '\0';
+		h[fd]->str[0] = '\0';
 	}
 	byte_read = ft_init(h[fd], fd);
 	if (byte_read == -1)
-		return (t = ft_lstclean(h[fd]), h[fd] = NULL, free(t->content), free(t), NULL);
+		return (t = clean(h[fd]), h[fd] = NULL, free(t->str), free(t), NULL);
 	res = malloc(sizeof(char) * get_size(h[fd]) + 1);
 	if (!res)
 		return (NULL);
 	res = create_line(h[fd], res);
-	h[fd] = ft_lstclean(h[fd]);
+	h[fd] = clean(h[fd]);
 	if (!*res)
 		return (free(res), NULL);
 	return (res);
