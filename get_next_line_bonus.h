@@ -6,7 +6,7 @@
 /*   By: emehdaou <emehdaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 15:58:38 by emehdaou          #+#    #+#             */
-/*   Updated: 2023/12/06 12:17:59 by emehdaou         ###   ########.fr       */
+/*   Updated: 2023/12/06 15:16:35 by emehdaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,17 @@
 
 typedef struct s_list
 {
-	char			*str;
+	char			*s;
 	struct s_list	*next;
 }					t_list;
 
 char				*get_next_line(int fd);
-void				ft_lstadd_back(t_list *head, char *str);
-t_list				*ft_lstnew(char *str);
+void				ft_lstadd_back(t_list *head, char *s);
+t_list				*ft_lstnew(char *s);
 void				*ft_calloc(size_t nmemb, size_t size);
 void				ft_bzero(void *s, size_t n);
 t_list				*ft_lstlast(t_list *lst);
 int					get_size(t_list *head);
-size_t				ft_strlen(const char *str);
+size_t				ft_strlen(const char *s);
 
 #endif

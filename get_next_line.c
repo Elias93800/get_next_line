@@ -6,7 +6,7 @@
 /*   By: emehdaou <emehdaou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 15:58:44 by emehdaou          #+#    #+#             */
-/*   Updated: 2023/11/30 15:28:01 by emehdaou         ###   ########.fr       */
+/*   Updated: 2023/12/06 15:18:33 by emehdaou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_list	*clean(t_list *list)
 	t_list	*last;
 	t_list	*clean;
 
-	clean = (t_list *)malloc(sizeof(t_list));
+	clean = malloc(sizeof(t_list));
 	if (list == NULL || clean == NULL)
 		return (NULL);
 	clean->next = NULL;
@@ -122,7 +122,7 @@ char	*get_next_line(int fd)
 		h->content[0] = '\0';
 	}
 	byte_read = ft_init(h, fd);
-	if (byte_read == -1)
+	if (byte_read < 0)
 		return (t = clean(h), h = NULL, free(t->content), free(t), NULL);
 	res = malloc(sizeof(char) * get_size(h) + 1);
 	if (!res)
@@ -130,7 +130,7 @@ char	*get_next_line(int fd)
 	res = create_line(h, res);
 	h = clean(h);
 	if (!*res)
-		return (free(res), NULL);
+		return (free(res), t = h, h = NULL, free(t->content), free(t), NULL);
 	return (res);
 }
 
@@ -139,20 +139,20 @@ char	*get_next_line(int fd)
 // 	int fd = open("get_next_line.h", O_RDWR);
 // 	// close(fd);
 // 	// fd = open("moha.txt", O_RDWR);		return (-1);
-
-// 	while (1)
+// 	int i = 0;
+// 	while (20)
 // 	{
 // 		char *str = get_next_line(fd);
 // 		if (!str)
+// 		{
+// 			free(str);
 // 			break ;
+// 		}
 // 		// printf("--------\n");
 // 		printf("%s", str);
 // 		// printf("--------\n");
 // 		free(str);
+// 		i++;
 // 	}
-// 	// get_next_line(fd);
-// 	// printf("res = %s\n", get_next_line(fd));
-// 	// get_next_line(fd);
-// 	// printf("res = %s\n", get_next_line(fd));
-// 	// clos
+// 	close(fd);
 // }
